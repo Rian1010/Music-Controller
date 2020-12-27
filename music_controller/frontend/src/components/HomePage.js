@@ -16,9 +16,10 @@ import {
 export default class HomePage extends Component {
     constructor(props) {
         super(props);
-        this.setState = {
+        this.state = {
             roomCode: null,
-        }
+        };
+        this.clearRoomCode = this.clearRoomCode.bind(this)
     }
 
     // async prevents the whole page from waiting to componentDidMount() to finish and allows it to perform, once it's loaded
@@ -54,16 +55,33 @@ export default class HomePage extends Component {
         );
     }
 
+    clearRoomCode() {
+        this.setState({
+            roomCode: null,
+        })
+    }
+
     render() {
         return (
             <Router> 
                 <Switch>
-                    <Route exact path='/'>
-                        { this.renderHomePage() }
+                    <Route exact path='/' 
+                        render={() => {
+                            return this.state.roomCode ? (
+                                <Redirect to={`/room/${this.state.roomCode}`} /> 
+                            ) : (
+                                this.renderHomePage()
+                            );
+                        }}>
                     </Route>
                     <Route path='/join' component={RoomJoinPage} />
                     <Route path='/create' component={CreateRoomPage} />
-                    <Route path="/room/:roomCode" component={Room} />
+                    <Route
+                        path="/room/:roomCode"
+                        render={(props) => {
+                            return <Room {...props} leaveRoomCallback={this.clearRoomComponent} />
+                        }}
+                    />
                 </Switch>
             </Router>
         )
