@@ -9,13 +9,13 @@ export default class Room extends Component {
             guestCanPause: false,
             isHost: false,
         };
-        this.roomCode = this.props.match.params.roomCode
+        this.roomCode = this.props.match.params.roomCode;
         this.getRoomDetails();
-        this.leaveButtonPressed = this.leaveButtonPressed.bind(this)
+        this.leaveButtonPressed = this.leaveButtonPressed.bind(this);
     }
 
     getRoomDetails() {
-        fetch('/api/get-room' + '?code=' + this.roomCode)
+        return fetch('/api/get-room' + '?code=' + this.roomCode)
         .then((response) =>
             {
                 if (!response.ok) {
@@ -25,7 +25,6 @@ export default class Room extends Component {
                 return response.json()
             })
         .then((data) => {
-            console.log(data)
             this.setState({
                 votesToSkip: data.votes_to_skip,
                 guestCanPause: data.guest_can_pause,
@@ -74,7 +73,7 @@ export default class Room extends Component {
                 </Grid>
 
                 <Grid item xs={12} align="center">
-                    <Button variant="contained" color="secondary" onClick={ this.leaveButtonPressed() }>
+                    <Button variant="contained" color="secondary" onClick={ this.leaveButtonPressed }>
                         Leave Room
                     </Button>
                 </Grid>

@@ -28,7 +28,7 @@ export default class HomePage extends Component {
         .then((response) => response.json())
         .then((data) => {
             this.setState({
-               roomCode: data.code 
+               roomCode: data.code,
             });
         });
     }
@@ -79,7 +79,7 @@ export default class HomePage extends Component {
                     <Route
                         path="/room/:roomCode"
                         render={(props) => {
-                            return <Room {...props} leaveRoomCallback={this.clearRoomComponent} />
+                            return <Room {...props} leaveRoomCallback={this.clearRoomCode} />
                         }}
                     />
                 </Switch>
